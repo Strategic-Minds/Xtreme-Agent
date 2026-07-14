@@ -4,32 +4,76 @@
 
 @layer base {
   body {
-    @apply bg-gray-950 text-gray-100;
+    @apply bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100;
   }
 
   input,
   textarea,
   select {
-    @apply bg-gray-800 text-gray-100 border-gray-700;
+    @apply bg-slate-800/60 text-slate-100 border-slate-700/50 backdrop-blur-md;
   }
 
   button {
-    @apply transition-colors;
+    @apply transition-all;
   }
 }
 
 @layer components {
   .prose {
-    @apply text-gray-100;
+    @apply text-slate-100;
   }
 
   .prose pre {
-    @apply bg-gray-900 border border-gray-800;
+    @apply bg-slate-900/50 border border-slate-700/50 backdrop-blur-md rounded-lg;
   }
 
   .prose code {
-    @apply text-blue-400;
+    @apply text-blue-400 font-mono;
   }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
 }
 
 /* Markdown styles */
@@ -39,63 +83,105 @@
 .prose h4,
 .prose h5,
 .prose h6 {
-  @apply font-bold text-gray-100 mb-2;
+  @apply font-bold text-slate-100 mb-3 mt-4;
 }
 
 .prose h1 {
-  @apply text-xl;
+  @apply text-2xl;
 }
 
 .prose h2 {
-  @apply text-lg;
+  @apply text-xl;
 }
 
 .prose h3 {
+  @apply text-lg;
+}
+
+.prose h4 {
   @apply text-base;
 }
 
 .prose p {
-  @apply mb-2;
+  @apply mb-3 leading-relaxed;
 }
 
 .prose ul,
 .prose ol {
-  @apply ml-4 mb-2;
+  @apply ml-6 mb-3 space-y-1;
 }
 
 .prose li {
-  @apply mb-1;
+  @apply mb-1 text-slate-200;
 }
 
 .prose a {
-  @apply text-blue-400 hover:text-blue-300 underline;
+  @apply text-blue-400 hover:text-blue-300 underline decoration-blue-400/50 hover:decoration-blue-300;
 }
 
 .prose code {
-  @apply bg-gray-800 px-1 py-0.5 rounded text-sm;
+  @apply bg-slate-800/60 backdrop-blur-md px-2 py-1 rounded text-sm font-mono text-blue-300 border border-slate-700/50;
 }
 
 .prose pre {
-  @apply p-3 rounded-lg overflow-x-auto mb-2;
+  @apply p-4 rounded-lg overflow-x-auto mb-3 border border-slate-700/50 bg-slate-900/50 backdrop-blur-md;
 }
 
 .prose pre code {
-  @apply bg-transparent px-0 py-0;
+  @apply bg-transparent px-0 py-0 border-0 text-slate-100;
 }
 
 .prose blockquote {
-  @apply border-l-4 border-blue-500 pl-4 italic text-gray-400 my-2;
+  @apply border-l-4 border-blue-500 pl-4 italic text-slate-400 my-3 bg-slate-800/30 py-2 pr-4 rounded-r-lg;
 }
 
 .prose table {
-  @apply border-collapse border border-gray-700 w-full;
+  @apply border-collapse border border-slate-700/50 w-full my-3 rounded-lg overflow-hidden;
 }
 
 .prose th,
 .prose td {
-  @apply border border-gray-700 px-3 py-2 text-left;
+  @apply border border-slate-700/50 px-4 py-3 text-left;
 }
 
 .prose th {
-  @apply bg-gray-800 font-semibold;
+  @apply bg-slate-800/60 backdrop-blur-md font-semibold text-slate-100;
+}
+
+.prose td {
+  @apply bg-slate-900/30;
+}
+
+.prose tbody tr:hover {
+  @apply bg-slate-800/40;
+}
+
+.prose strong {
+  @apply font-semibold text-slate-100;
+}
+
+.prose em {
+  @apply italic text-slate-200;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  @apply bg-slate-800/40 backdrop-blur-md border border-slate-700/50;
+}
+
+.glass-sm {
+  @apply bg-slate-800/30 backdrop-blur-sm border border-slate-700/30;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-900/50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-700/50 rounded-full hover:bg-slate-600/50;
 }

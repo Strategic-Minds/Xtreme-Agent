@@ -13,14 +13,14 @@ export default function MessageBubble({
   const isAssistant = role === 'assistant';
 
   return (
-    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} mb-4`}>
+    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} animate-fadeIn mb-4`}>
       <div
-        className={`max-w-xs lg:max-w-md xl:max-w-lg px-4 py-3 rounded-lg ${
+        className={`max-w-2xl px-4 py-3 rounded-2xl backdrop-blur-md transition-all ${
           isUser
-            ? 'bg-blue-600 text-white rounded-br-none'
+            ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-br-none shadow-lg shadow-blue-500/20'
             : isAssistant
-            ? 'bg-gray-800 text-gray-100 rounded-bl-none border border-gray-700'
-            : 'bg-gray-700 text-gray-100 rounded-bl-none'
+            ? 'bg-slate-800/60 border border-slate-700/50 text-slate-100 rounded-bl-none hover:bg-slate-800/80'
+            : 'bg-slate-700/60 text-slate-100 rounded-bl-none'
         }`}
       >
         {isAssistant ? (
@@ -28,7 +28,7 @@ export default function MessageBubble({
         ) : (
           <p className="whitespace-pre-wrap break-words">{content}</p>
         )}
-        <p className={`text-xs mt-2 ${isUser ? 'text-blue-200' : 'text-gray-500'}`}>
+        <p className={`text-xs mt-2 ${isUser ? 'text-blue-100' : 'text-slate-400'}`}>
           {new Date(created_at).toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',
