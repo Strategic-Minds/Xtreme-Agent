@@ -1,86 +1,40 @@
-import express from 'express';
+import express, { Express } from 'express';
 import cors from 'cors';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
-import morgan from 'morgan';
-import 'dotenv/config';
-
-import { logger } from './utils/logger.js';
 import authRoutes from './routes/auth.js';
 import chatRoutes from './routes/chat.js';
+import builderRoutes from './routes/builder.js';
 import healthRoutes from './routes/health.js';
+import { logger } from './utils/logger.js';
 
-const app = express();
-const PORT = process.env.PORT || 3001;
-const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:5173';
+const app: Express = express();
 
-// ─────────────────────────────────────────────────────────────────────────────
-// MIDDLEWARE
-// ─────────────────────────────────────────────────────────────────────────────
+// Middleware
+app.use(cors());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
-// Security headers
-app.use(helmet());
-
-// CORS
-app.use(
-  cors({
-    origin: CORS_ORIGIN.split(',').map((origin) => origin.trim()),
-    credentials: true,
-  })
-);
-
-// Body parser
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-
-// Logging
-app.use(morgan('combined'));
-
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: parseInt(process.env.RATE_LIMIT_MAX || '60', 10),
-  message: 'Too many requests from this IP, please try again later.',
-  standardHeaders: true,
-  legacyHeaders: false,
+// Request logging
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.path}`);
+  next();
 });
-app.use('/api/', limiter);
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ROUTES
-// ─────────────────────────────────────────────────────────────────────────────
-
-app.use('/api/health', healthRoutes);
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api', builderRoutes);
+app.use('/api/health', healthRoutes);
 
-// 404 handler
-app.use((req: any, res: any) => {
-  res.status(404).json({
-    error: 'NOT_FOUND',
-    message: `Route ${req.method} ${req.path} not found`,
-  });
+// Health check
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Xtreme Agent API is running' });
 });
 
-// Error handler
+// Error handling
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   logger.error('Unhandled error', err);
-  res.status(500).json({
-    error: 'INTERNAL_ERROR',
-    message: err?.message || 'An unexpected error occurred',
-  });
+  res.status(500).json({ error: 'Internal server error' });
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// START SERVER (only in development)
-// ─────────────────────────────────────────────────────────────────────────────
-
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    logger.info(`🚀 Server running on http://localhost:${PORT}`);
-    logger.info(`📝 CORS enabled for: ${CORS_ORIGIN}`);
-    logger.info(`🔐 Rate limit: ${process.env.RATE_LIMIT_MAX || 60} requests/minute`);
-  });
-}
-
+// Export for Vercel serverless
 export default app;
