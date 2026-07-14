@@ -55,7 +55,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/chat', chatRoutes);
 
 // 404 handler
-app.use((req, res) => {
+app.use((req: any, res: any) => {
   res.status(404).json({
     error: 'NOT_FOUND',
     message: `Route ${req.method} ${req.path} not found`,

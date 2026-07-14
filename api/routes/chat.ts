@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 const router = Router();
 
 // POST /api/chat
-router.post('/', authMiddleware, async (req: AuthRequest, res) => {
+router.post('/', authMiddleware, async (req: AuthRequest, res: any) => {
   try {
     const { message, session_id, stream } = req.body;
 
@@ -148,7 +148,7 @@ router.post('/', authMiddleware, async (req: AuthRequest, res) => {
 });
 
 // GET /api/sessions
-router.get('/sessions', authMiddleware, async (req: AuthRequest, res) => {
+router.get('/sessions', authMiddleware, async (req: AuthRequest, res: any) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 20;
@@ -182,7 +182,7 @@ router.get('/sessions', authMiddleware, async (req: AuthRequest, res) => {
 });
 
 // GET /api/sessions/:id/messages
-router.get('/sessions/:id/messages', authMiddleware, async (req: AuthRequest, res) => {
+router.get('/sessions/:id/messages', authMiddleware, async (req: AuthRequest, res: any) => {
   try {
     const sessionId = req.params.id;
     const page = parseInt(req.query.page as string) || 1;
@@ -229,7 +229,7 @@ router.get('/sessions/:id/messages', authMiddleware, async (req: AuthRequest, re
 });
 
 // DELETE /api/sessions/:id
-router.delete('/sessions/:id', authMiddleware, async (req: AuthRequest, res) => {
+router.delete('/sessions/:id', authMiddleware, async (req: AuthRequest, res: any) => {
   try {
     const sessionId = req.params.id;
 

@@ -5,7 +5,7 @@ const router = Router();
 const startTime = Date.now();
 
 // GET /api/health
-router.get('/', (req, res) => {
+router.get('/', (_req: any, res: any) => {
   const uptime = Math.floor((Date.now() - startTime) / 1000);
 
   logger.debug('Health check');
