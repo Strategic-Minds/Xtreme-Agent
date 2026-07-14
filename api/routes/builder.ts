@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { authenticateToken } from '../middleware/auth.js';
+import { authMiddleware as authenticateToken } from '../middleware/auth.js';
 import { streamChatCompletion } from '../services/ai.js';
 import { logger } from '../utils/logger.js';
 
