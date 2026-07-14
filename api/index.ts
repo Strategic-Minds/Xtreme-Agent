@@ -72,13 +72,15 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// START SERVER
+// START SERVER (only in development)
 // ─────────────────────────────────────────────────────────────────────────────
 
-app.listen(PORT, () => {
-  logger.info(`🚀 Server running on http://localhost:${PORT}`);
-  logger.info(`📝 CORS enabled for: ${CORS_ORIGIN}`);
-  logger.info(`🔐 Rate limit: ${process.env.RATE_LIMIT_MAX || 60} requests/minute`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    logger.info(`🚀 Server running on http://localhost:${PORT}`);
+    logger.info(`📝 CORS enabled for: ${CORS_ORIGIN}`);
+    logger.info(`🔐 Rate limit: ${process.env.RATE_LIMIT_MAX || 60} requests/minute`);
+  });
+}
 
 export default app;
