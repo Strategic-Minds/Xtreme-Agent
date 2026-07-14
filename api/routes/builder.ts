@@ -29,7 +29,26 @@ router.post('/builder', authenticateToken, async (req: BuilderRequest, res: Resp
 
     logger.info(`Builder request from user ${userId}: ${prompt}`);
 
+    // Check for cloning/scraping requests
+    const urlMatch = prompt.match(/https?:\/\/[^\s]+/);
+    let scrapedData = null;
+    if (urlMatch && (prompt.toLowerCase().includes('clone') || prompt.toLowerCase().includes('scrape'))) {
+      try {
+        const { scrapeWebsite } = await import('../services/scraper.js');
+        scrapedData = await scrapeWebsite(urlMatch[0]);
+      } catch (error) {
+        logger.error('Scraping failed during builder request', error);
+      }
+    }
+
     const systemPrompt = `You are an expert web developer and UI/UX designer. Your task is to generate HTML, CSS, and JavaScript code based on user requests.
+
+${scrapedData ? `The user wants to clone/scrape this website:
+Title: ${scrapedData.title}
+HTML Structure: ${scrapedData.html}
+CSS Styles: ${scrapedData.css}
+
+Use this data to recreate the website as closely as possible, but optimize it for a clean, modern look.` : ''}
 
 When the user asks you to build something, respond with a JSON object containing:
 {
@@ -72,7 +91,8 @@ JavaScript: ${currentState?.javascript || 'empty'}`;
       fullResponse = await streamChatCompletion(
         messages,
         (chunk) => {
-          res.write(chunk);
+          // In a real implementation, you might want to stream progress
+          // For now, we'll just wait for the full response
         }
       );
     } catch (error) {
