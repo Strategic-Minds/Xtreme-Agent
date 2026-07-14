@@ -3,21 +3,15 @@
   "version": "1.0.0",
   "description": "Full-stack AI assistant clone with frontend, backend, and integrations",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
   "scripts": {
-    "dev": "pnpm -r --parallel dev",
-    "build": "pnpm -r build",
-    "start": "pnpm -r start",
-    "lint": "pnpm -r lint",
-    "type-check": "pnpm -r type-check",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "test": "pnpm -r test"
+    "dev": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "start": "npm run start --prefix frontend",
+    "lint": "npm run lint --prefix frontend",
+    "type-check": "npm run type-check --prefix frontend",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\""
   },
   "devDependencies": {
-    "prettier": "^3.0.0",
-    "typescript": "^5.3.0"
+    "prettier": "^3.0.0"
   }
 }
