@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-950 text-gray-100;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply bg-gray-800 text-gray-100 border-gray-700;
+  }
+
+  button {
+    @apply transition-colors;
+  }
+}
+
+@layer components {
+  .prose {
+    @apply text-gray-100;
+  }
+
+  .prose pre {
+    @apply bg-gray-900 border border-gray-800;
+  }
+
+  .prose code {
+    @apply text-blue-400;
+  }
+}
+
+/* Markdown styles */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply font-bold text-gray-100 mb-2;
+}
+
+.prose h1 {
+  @apply text-xl;
+}
+
+.prose h2 {
+  @apply text-lg;
+}
+
+.prose h3 {
+  @apply text-base;
+}
+
+.prose p {
+  @apply mb-2;
+}
+
+.prose ul,
+.prose ol {
+  @apply ml-4 mb-2;
+}
+
+.prose li {
+  @apply mb-1;
+}
+
+.prose a {
+  @apply text-blue-400 hover:text-blue-300 underline;
+}
+
+.prose code {
+  @apply bg-gray-800 px-1 py-0.5 rounded text-sm;
+}
+
+.prose pre {
+  @apply p-3 rounded-lg overflow-x-auto mb-2;
+}
+
+.prose pre code {
+  @apply bg-transparent px-0 py-0;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-blue-500 pl-4 italic text-gray-400 my-2;
+}
+
+.prose table {
+  @apply border-collapse border border-gray-700 w-full;
+}
+
+.prose th,
+.prose td {
+  @apply border border-gray-700 px-3 py-2 text-left;
+}
+
+.prose th {
+  @apply bg-gray-800 font-semibold;
+}
